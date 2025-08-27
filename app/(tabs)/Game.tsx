@@ -28,47 +28,48 @@ const Game = () => {
   const [balance, setBalance] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const fetchBalance = async () => {
-    try {
-      setLoading(true);
-      const token = await AsyncStorage.getItem("token");
+const fetchBalance = async () => {
+  try {
+    setLoading(true);
+    const token = await AsyncStorage.getItem("token");
 
-      if (!token) {
-        console.error("No token found");
-        setLoading(false);
-        return;
-      }
-
-      const response = await fetch(
-        "http://192.154.230.43:3000/api/wallet/balance",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const data = await response.json();
-      console.log("API Response:", data); // Debugging
-
-      if (
-        data.status === "success" &&
-        data.data &&
-        data.data.balance !== undefined
-      ) {
-        setBalance(data.data.balance);
-      } else {
-        console.error("Failed to fetch balance:", data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching balance:", error);
-    } finally {
+    if (!token) {
+      console.error("No token found");
       setLoading(false);
+      return;
     }
-  };
 
+    const response = await fetch(
+      "http://192.154.230.43:3000/api/wallet/balance",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log("API Response:", data); // Debugging
+
+    if (
+      data.status === "success" &&
+      data.data &&
+      data.data.balance !== undefined
+    ) {
+      // Fix floating point precision issues and round to 2 decimal places
+      const roundedBalance = Math.round(data.data.balance * 100) / 100;
+      setBalance(roundedBalance);
+    } else {
+      console.error("Failed to fetch balance:", data.message);
+    }
+  } catch (error) {
+    console.error("Error fetching balance:", error);
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
     fetchBalance();
   }, []);

@@ -22,45 +22,53 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const AddMoney = () => {
   const [amount, setAmount] = useState(""); // State to store the deposit amount
   const [loading, setLoading] = useState(false);
-  const [walletBalance, setWalletBalance] = useState(0);
+  const [Balance, setBalance] = useState(0);
 
-  const fetchWalletBalance = async () => {
-    try {
-      setLoading(true);
-      
-      // Retrieve token from AsyncStorage
-      const token = await AsyncStorage.getItem("token");
-      if (!token) {
-        throw new Error("User not authenticated");
-      }
-  
-      // Fetch wallet balance from API with Authorization header
-      const response = await fetch(
-        "http://192.154.230.43:3000/api/wallet/balance",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` // Include token in the request
-          },
-        }
-      );
-  
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch balance");
-      }
-  
-      setWalletBalance(data.data.balance);
-    } catch (error) {
-      Alert.alert("Error", (error as Error).message);
-    } finally {
+const fetchBalance = async () => {
+  try {
+    setLoading(true);
+    const token = await AsyncStorage.getItem("token");
+
+    if (!token) {
+      console.error("No token found");
       setLoading(false);
+      return;
     }
-  };
+
+    const response = await fetch(
+      "http://192.154.230.43:3000/api/wallet/balance",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log("API Response:", data); // Debugging
+
+    if (
+      data.status === "success" &&
+      data.data &&
+      data.data.balance !== undefined
+    ) {
+      // Fix floating point precision issues and round to 2 decimal places
+      const roundedBalance = Math.round(data.data.balance * 100) / 100;
+      setBalance(roundedBalance);
+    } else {
+      console.error("Failed to fetch balance:", data.message);
+    }
+  } catch (error) {
+    console.error("Error fetching balance:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
-    fetchWalletBalance();
+    fetchBalance();
   }, []);
 
 
@@ -160,7 +168,7 @@ const AddMoney = () => {
                 </View>
                 <View className="flex-row gap-2 items-center my-2 pb-12">
                   <Text className="font-extrabold text-white text-2xl">
-                  {`₹${walletBalance}`}
+                  {`₹${Balance}`}
                   </Text>
                   <TouchableOpacity>
                   <Ionicons name="refresh" size={24} color="white" /></TouchableOpacity>

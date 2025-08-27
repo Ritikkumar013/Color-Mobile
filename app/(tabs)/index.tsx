@@ -106,7 +106,7 @@ export default function App() {
           <View className="bg-white flex-row justify-between p-3 rounded-b-xl mb-7">
             <View className="flex-row items-center gap-2">
               <Image
-                source={require("../../assets/images/avatar2.png")}
+                source={require("../../assets/images/pro.jpg")}
                 className="w-8 h-8 rounded-full"
                 resizeMode="contain"
               />
@@ -149,7 +149,7 @@ export default function App() {
           <View className="bg-white flex-row justify-between p-3 rounded-b-xl mb-7">
             <View className="flex-row items-center gap-2">
               <Image
-                source={require("../../assets/images/avatar2.png")}
+                source={require("../../assets/images/pro.jpg")}
                 className="w-8 h-8 rounded-full"
                 resizeMode="contain"
               />
@@ -245,7 +245,7 @@ export default function App() {
             </View>
           </View>
           <ScrollView>
-            <Winning />
+            {/* <Winning /> */}
           </ScrollView>
         </ScrollView>
       </SafeAreaView>

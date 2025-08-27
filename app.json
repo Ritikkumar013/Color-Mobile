@@ -9,26 +9,26 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.ColorTrade"  
+      "bundleIdentifier": "com.anonymous.ColorTrade",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
-
     "android": {
-      "package": "com.anonymous.ColorTrade",  
+      "usesCleartextTraffic": true,
+      "package": "com.ritik13.colortrade",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
-
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-
     "plugins": [
       "expo-router",
       [
@@ -41,16 +41,15 @@
         }
       ]
     ],
-
     "experiments": {
       "typedRoutes": true
     },
-
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "c598d537-bc40-4aa8-95c6-dad50b3785f4"
+        "projectId": "2531279c-eec6-4736-bc14-e113aca73338"
       }
-    }
+    },
+    "owner": "ritik13"
   }
 }

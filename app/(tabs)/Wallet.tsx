@@ -16,10 +16,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WalletPage = () => {
   const totalLimit = 200000;
-  const [walletBalance, setWalletBalance] = useState(0);
+  const [Balance, setBalance] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const progressPercentage = (walletBalance / totalLimit) * 100;
+  const progressPercentage = (Balance / totalLimit) * 100;
   const progressColor = "green";
 
   // Circular progress settings
@@ -31,40 +31,47 @@ const WalletPage = () => {
 
   // Function to fetch wallet balance from API
    const fetchWalletBalance = async () => {
-    try {
-      setLoading(true);
-      
-      // Retrieve token from AsyncStorage
-      const token = await AsyncStorage.getItem("token");
-      if (!token) {
-        throw new Error("User not authenticated");
-      }
-  
-      // Fetch wallet balance from API with Authorization header
-      const response = await fetch(
-        "http://192.154.230.43:3000/api/wallet/balance",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` // Include token in the request
-          },
-        }
-      );
-  
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to fetch balance");
-      }
-  
-      setWalletBalance(data.data.balance);
-    } catch (error) {
-      Alert.alert("Error", (error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    const token = await AsyncStorage.getItem("token");
 
+    if (!token) {
+      console.error("No token found");
+      setLoading(false);
+      return;
+    }
+
+    const response = await fetch(
+      "http://192.154.230.43:3000/api/wallet/balance",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await response.json();
+    console.log("API Response:", data); // Debugging
+
+    if (
+      data.status === "success" &&
+      data.data &&
+      data.data.balance !== undefined
+    ) {
+      // Fix floating point precision issues and round to 2 decimal places
+      const roundedBalance = Math.round(data.data.balance * 100) / 100;
+      setBalance(roundedBalance);
+    } else {
+      console.error("Failed to fetch balance:", data.message);
+    }
+  } catch (error) {
+    console.error("Error fetching balance:", error);
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
     fetchWalletBalance();
   }, []);
@@ -84,7 +91,7 @@ const WalletPage = () => {
               <ActivityIndicator size="large" color="#fff" />
             ) : (
               <>
-                <Text className="text-white text-xl">{`₹${walletBalance}`}</Text>
+                <Text className="text-white text-xl">{`₹${Balance}`}</Text>
                 <Text className="text-white text-xl font-bold">
                   Total Amount
                 </Text>
@@ -149,7 +156,7 @@ const WalletPage = () => {
             <ActivityIndicator size="large" color="green" />
           ) : (
             <>
-              <Text className="text-md font-bold">{`Current Balance: ₹${walletBalance}`}</Text>
+              <Text className="text-md font-bold">{`Current Balance: ₹${Balance}`}</Text>
               <TouchableOpacity className="items-center w-full bg-green-600 p-3 rounded-full my-3">
                 <Text className="text-lg text-white font-bold">
                   Add To Wallet
