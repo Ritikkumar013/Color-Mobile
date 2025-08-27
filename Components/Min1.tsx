@@ -393,6 +393,7 @@
 // };
 
 // export default Min1;
+
 import React, { useState, useEffect } from "react";
 import BetModal from "./Betmodel";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -624,7 +625,17 @@ const Min1 = () => {
         betValue = selectedOption.value as number;
       } else if (selectedOption.type === "size") {
         betType = "size";
-        betValue = selectedOption.value as string;
+        // FIX: Ensure consistent case and validate size values
+        const sizeValue = selectedOption.value as string;
+        // Convert to lowercase to match backend expectations
+        betValue = sizeValue.toLowerCase(); // "big" or "small"
+        
+        // Alternative options if lowercase doesn't work:
+        // betValue = sizeValue === "Big" ? "big" : "small";
+        // OR if backend expects uppercase:
+        // betValue = sizeValue.toUpperCase(); // "BIG" or "SMALL"
+        
+        console.log("Size bet - Original value:", sizeValue, "Sent value:", betValue);
       } else {
         throw new Error("Invalid bet type");
       }
@@ -651,6 +662,7 @@ const Min1 = () => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
+        console.error("Bet placement error response:", errorData);
         throw new Error(errorData?.message || `HTTP error! status: ${response.status}`);
       }
 
@@ -714,6 +726,8 @@ const Min1 = () => {
       return;
     }
     
+    console.log("Size button pressed:", size); // Debug log
+    
     setSelectedOption((prev) =>
       prev?.type === "size" && prev.value === size
         ? null
@@ -774,7 +788,7 @@ const Min1 = () => {
             />
             <Text className="text-white font-bold text-sm">How to play</Text>
           </View>
-          <Text className="font-extrabold text-white px-3 py-2">Win Go 3 min</Text>
+          <Text className="font-extrabold text-white px-3 py-2">Win Go 1 min</Text>
         </View>
 
         {/* Timer */}
