@@ -18,7 +18,7 @@
     },
     "android": {
       "usesCleartextTraffic": true,
-      "package": "com.ritik13.colortrade",
+      "package": "com.ritik227.colortrade",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -47,9 +47,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "2531279c-eec6-4736-bc14-e113aca73338"
+        "projectId": "bb6583ae-7829-4f0b-a18f-5e66f48918a1"
       }
     },
-    "owner": "ritik13"
+    "owner": "ritik2227"
   }
 }

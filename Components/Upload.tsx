@@ -35,9 +35,9 @@ const Upload = () => {
           resizeMode="cover"
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={pickImage} className="mt-4 bg-green-600 px-4 py-2 rounded-full">
+      {/* <TouchableOpacity onPress={pickImage} className="mt-4 bg-green-600 px-4 py-2 rounded-full">
         <Text className="text-white">Change Profile Picture</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

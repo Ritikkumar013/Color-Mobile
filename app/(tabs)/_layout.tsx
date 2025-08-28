@@ -28,7 +28,7 @@ export default function RootLayout() {
       }}
     >
       <Tabs.Screen
-        name="Downlaod"
+        name="Download"
         options={{
           tabBarIcon: () => (
             <Image
@@ -107,3 +107,4 @@ export default function RootLayout() {
     </Tabs>
   );
 }
+

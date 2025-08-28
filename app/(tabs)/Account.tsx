@@ -66,8 +66,6 @@
 //     }
 //   };
 
-
-
 //   useEffect(() => {
 //     fetchBalance();
 //   }, []);
@@ -383,10 +381,11 @@
 
 // export default Account;
 
-
 import React from "react";
 import { useState } from "react";
-import { StatusBar } from "expo-status-bar";
+import { StatusBar as RNStatusBar } from "react-native"; // Add this import
+import { StatusBar } from "expo-status-bar"; // Keep this for the StatusBar component
+
 import {
   View,
   Text,
@@ -436,8 +435,6 @@ const Account = () => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(false);
 
-
-
   const fetchUserProfile = async () => {
     try {
       setProfileLoading(true);
@@ -474,48 +471,48 @@ const Account = () => {
       setProfileLoading(false);
     }
   };
-const fetchBalance = async () => {
-  try {
-    setLoading(true);
-    const token = await AsyncStorage.getItem("token");
+  const fetchBalance = async () => {
+    try {
+      setLoading(true);
+      const token = await AsyncStorage.getItem("token");
 
-    if (!token) {
-      console.error("No token found");
-      setLoading(false);
-      return;
-    }
-
-    const response = await fetch(
-      "http://192.154.230.43:3000/api/wallet/balance",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+      if (!token) {
+        console.error("No token found");
+        setLoading(false);
+        return;
       }
-    );
 
-    const data = await response.json();
-    console.log("API Response:", data); // Debugging
+      const response = await fetch(
+        "http://192.154.230.43:3000/api/wallet/balance",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    if (
-      data.status === "success" &&
-      data.data &&
-      data.data.balance !== undefined
-    ) {
-      // Fix floating point precision issues and round to 2 decimal places
-      const roundedBalance = Math.round(data.data.balance * 100) / 100;
-      setBalance(roundedBalance);
-    } else {
-      console.error("Failed to fetch balance:", data.message);
+      const data = await response.json();
+      console.log("API Response:", data); // Debugging
+
+      if (
+        data.status === "success" &&
+        data.data &&
+        data.data.balance !== undefined
+      ) {
+        // Fix floating point precision issues and round to 2 decimal places
+        const roundedBalance = Math.round(data.data.balance * 100) / 100;
+        setBalance(roundedBalance);
+      } else {
+        console.error("Failed to fetch balance:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("Error fetching balance:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   useEffect(() => {
     fetchBalance();
@@ -549,16 +546,19 @@ const fetchBalance = async () => {
   };
 
   const transaction = () => {
-    router.push("/Transaction");
+    router.push("/BetHistory");
   };
 
   const [isPopupVisible, setPopupVisible] = useState(false);
 
   return (
     <ScrollView className="bg-green-50 max-w-md">
-      <StatusBar style="light" />
+      <StatusBar style="light" translucent={true} />
       {/* Header Section */}
-      <SafeAreaView className="bg-green-500 p-5 items-center rounded-b-[30px] pb-20">
+      <SafeAreaView
+        className="bg-green-500 p-5 items-center rounded-b-[30px] pb-20"
+        style={{ paddingTop: RNStatusBar.currentHeight }}
+      >
         <View className="flex flex-row items-center">
           <Image
             source={require("../../assets/images/Profile.png")}
@@ -573,15 +573,25 @@ const fetchBalance = async () => {
               </>
             ) : userProfile ? (
               <>
-                <Text className="text-lg font-bold text-white">{userProfile.name}</Text>
-                <Text className="text-sm text-white">UID: {userProfile._id}</Text>
-                <Text className="text-sm text-white">Mobile: {userProfile.number.value}</Text>
+                <Text className="text-lg font-bold text-white">
+                  {userProfile.name}
+                </Text>
+                <Text className="text-sm text-white">
+                  UID: {userProfile._id}
+                </Text>
+                <Text className="text-sm text-white">
+                  Mobile: {userProfile.number.value}
+                </Text>
               </>
             ) : (
               <>
-                <Text className="text-lg font-bold text-white">MemberpD6SF</Text>
+                <Text className="text-lg font-bold text-white">
+                  MemberpD6SF
+                </Text>
                 <Text className="text-sm text-white">UID: 369751</Text>
-                <Text className="text-sm text-white">Mobile: +9189**091236</Text>
+                <Text className="text-sm text-white">
+                  Mobile: +9189**091236
+                </Text>
               </>
             )}
           </View>
@@ -822,14 +832,9 @@ const fetchBalance = async () => {
 
       {/* Logout Section */}
       <View className="mt-2 mb-6 mx-4">
-        <Link
-          className="bg-green-500 py-3 rounded-full items-center"
-          href="/Login"
-        >
-          <View className="w-full bg-green-500 px-3 rounded-full items-center">
-            <Text className="text-white text-lg font-extrabold">Log Out</Text>
-          </View>
-        </Link>
+        <TouchableOpacity className="bg-green-500 py-3 rounded-full items-center">
+          <Text className="text-white text-lg font-extrabold">Log Out</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
