@@ -12,6 +12,7 @@ import { Link } from "expo-router";
 import Svg, { Circle } from "react-native-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { StatusBar as RNStatusBar } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const WalletPage = () => {
@@ -78,8 +79,22 @@ const WalletPage = () => {
 
   return (
     <ScrollView className="bg-gray-100">
-      <StatusBar style="light" />
-      <View className="mb-4">
+      <StatusBar style="auto" backgroundColor="#22c55e" />
+                 
+                 {/* Custom Status Bar Background - This creates the green background behind status bar */}
+                 <View 
+                   className="bg-green-500"
+                   style={{ 
+                     height: RNStatusBar.currentHeight,
+                     position: 'absolute',
+                     top: 0,
+                     left: 0,
+                     right: 0,
+                     zIndex: 1
+                   }} 
+                 />
+           
+      <View className="my-4">
         
         <View className="bg-green-500 p-5 items-center pb-3">
           <Text className="text-3xl text-white py-3 font-extrabold">

@@ -3,11 +3,26 @@ import React from "react";
 import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
-
+import { StatusBar as RNStatusBar } from "react-native";
 export default function Header() {
   return (
-    <SafeAreaView className="flex-row justify-between bg-white px-2 py-2">
-      {/* <StatusBar style="dark" /> */}
+    <SafeAreaView className=" flex-row justify-between bg-white px-2 py-3">
+      <StatusBar style="auto" backgroundColor="#22c55e" />
+                       
+                       {/* Custom Status Bar Background - This creates the green background behind status bar */}
+                       <View 
+                         className="bg-green-500"
+                         style={{ 
+                           height: RNStatusBar.currentHeight,
+                           position: 'absolute',
+                           top: 0,
+                           left: 0,
+                           right: 0,
+                           zIndex: 1
+                         }} 
+                       />
+              
+
       <View className="">
         <Image
           className="w-32 h-12"
@@ -21,7 +36,11 @@ export default function Header() {
             <Text className="text-md text-white font-extrabold">Login</Text>
           </TouchableOpacity> */}
 
-          <Link href='/Login'><View className="bg-green-500 border-2 border-green-500  px-4 p-1 rounded-md"><Text className="text-md text-white font-extrabold">Login</Text></View></Link>
+          <Link href="/Login">
+            <View className="bg-green-500 border-2 border-green-500  px-4 p-1 rounded-md">
+              <Text className="text-md text-white font-extrabold">Login</Text>
+            </View>
+          </Link>
         </View>
         <View>
           {/* <TouchableOpacity className="border-2 border-green-500 px-4 p-1 rounded-md">
@@ -30,18 +49,18 @@ export default function Header() {
             </Text>
           </TouchableOpacity> */}
 
-<Link href='/Register'><View className="border-2 border-green-500 px-4 p-1 rounded-md">
-<Text className="text-md text-green-600 font-extrabold">
-              Register
-            </Text>
-  </View></Link>
-
+          <Link href="/Register">
+            <View className="border-2 border-green-500 px-4 p-1 rounded-md">
+              <Text className="text-md text-green-600 font-extrabold">
+                Register
+              </Text>
+            </View>
+          </Link>
         </View>
       </View>
     </SafeAreaView>
   );
 }
-
 
 // import { View, Text, Image, TouchableOpacity } from "react-native";
 // import React, { useState, useEffect } from "react";
@@ -54,8 +73,6 @@ export default function Header() {
 // export default function Header() {
 //   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-
 //   // Method 2: Using AsyncStorage
 //   useEffect(() => {
 //     checkAuthStatus();
@@ -67,7 +84,7 @@ export default function Header() {
 //       const token = await AsyncStorage.getItem('token');
 //       // or check user data
 //       const userData = await AsyncStorage.getItem('userData');
-      
+
 //       if (token || userData) {
 //         setIsLoggedIn(true);
 //       }
@@ -85,7 +102,7 @@ export default function Header() {
 //           resizeMode="contain"
 //         />
 //       </View>
-      
+
 //       {/* Conditionally render Login/Register buttons */}
 //       {!isLoggedIn && (
 //         <View className="flex-row gap-3">
@@ -112,7 +129,7 @@ export default function Header() {
 //       {isLoggedIn && (
 //         <View className="flex-row gap-3 items-center">
 //           <Text className="text-gray-700">Welcome!</Text>
-//           <TouchableOpacity 
+//           <TouchableOpacity
 //             className="border-2 border-red-500 px-4 p-1 rounded-md"
 //             onPress={handleLogout}
 //           >

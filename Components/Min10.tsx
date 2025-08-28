@@ -586,16 +586,7 @@ const Min10 = () => {
         </View>
       )}
       
-      {isInFinalSeconds && (
-        <View className="bg-red-100 p-3 mx-2 mt-3 rounded-lg border-2 border-red-300">
-          <Text className="text-red-800 text-center font-bold">
-            🚫 BETTING CLOSED - Final 30 seconds! 🚫
-          </Text>
-          <Text className="text-red-600 text-center text-sm mt-1">
-            No more bets can be placed
-          </Text>
-        </View>
-      )}
+
 
       {/* Overlay for final 30 seconds */}
       {isInFinalSeconds && (
@@ -631,7 +622,7 @@ const Min10 = () => {
       </View>
 
       {/* Number Grid */}
-      <View className="flex flex-row flex-wrap justify-center gap-4 my-4">
+      <View className="flex flex-row flex-wrap justify-center gap-3 my-4">
         {numbers.map((number) => {
           const isSelected = selectedOption?.type === "number" && selectedOption.value === number;
           return (
@@ -657,7 +648,7 @@ const Min10 = () => {
         <TouchableOpacity
           onPress={() => handleSizePress("Big")}
           disabled={!isBettingAllowed}
-          className={`bg-orange-400 px-16 py-3 rounded-full ${
+          className={`bg-orange-400 px-16 py-3 rounded-l-full ${
             selectedOption?.type === "size" && selectedOption.value === "Big"
               ? "border-4 border-yellow-500"
               : ""
@@ -670,7 +661,7 @@ const Min10 = () => {
         <TouchableOpacity
           onPress={() => handleSizePress("Small")}
           disabled={!isBettingAllowed}
-          className={`bg-purple-500 px-16 py-3 rounded-full ${
+          className={`bg-purple-500 px-16 py-3 rounded-r-full ${
             selectedOption?.type === "size" && selectedOption.value === "Small"
               ? "border-4 border-yellow-500"
               : ""

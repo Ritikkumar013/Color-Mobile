@@ -45,7 +45,7 @@ const TabsMin = () => {
   const renderTab = ({ item }: { item: MinuteItem }) => (
     <TouchableOpacity
       onPress={() => setSelectedTab(item.id)}
-      className={`p-2 px-[19px] items-center rounded-xl ${
+      className={`p-2 px-6 items-center rounded-xl ${
         selectedTab === item.id ? "bg-green-700" : "bg-white"
       }`}
     >
@@ -84,14 +84,24 @@ const TabsMin = () => {
   };
 
   return (
-    <View className="bg-white mx-4 rounded-xl p-3 -mt-4">
+    <View className="bg-white px-2 rounded-xl p-3 -mt-4">
       <FlatList
         data={minutesData}
         keyExtractor={(item) => item.id}
         horizontal
         renderItem={renderTab}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ gap: 0 }}
+        
+        contentContainerStyle={{
+        flexGrow: 1,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: '#D1D5DB',
+        borderRadius: 10,
+      }}
       />
 
       {/* Display Selected Component */}

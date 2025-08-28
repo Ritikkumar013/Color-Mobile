@@ -8,11 +8,14 @@ import Winning from "../../Components/Winning";
 import { ScrollView } from "react-native-virtualized-view";
 import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function App() {
   const windowWidth = Dimensions.get("window").width;
   const animatedValue = useRef(new Animated.Value(windowWidth)).current;
   const [textWidth, setTextWidth] = useState(0);
+
+const router= useRouter();
 
   useEffect(() => {
     const startAnimation = () => {
@@ -33,12 +36,11 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <SafeAreaView className="flex-1 px-3">
-      <StatusBar style="dark" />
+        
         <ScrollView
           showsVerticalScrollIndicator={false} // Hides the scroll indicator
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 10 }}
         >
-          
           <Image
             className="w-full h-48 rounded-xl mb-3"
             source={require("../../assets/images/game-icon2.jpg")}
@@ -71,20 +73,19 @@ export default function App() {
             <Text className="text-xl font-extrabold px-2">Lottery</Text>
           </View>
           <TouchableOpacity>
-          <LinearGradient
-            colors={["#388E3C", "#C8E6C9"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{
-              minHeight: 112,
-              padding: 12,
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
-              flexDirection: "row",
-              overflow: "visible",
-            }}
-          >
-           
+            <LinearGradient
+              colors={["#388E3C", "#C8E6C9"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{
+                minHeight: 112,
+                padding: 12,
+                borderTopLeftRadius: 12,
+                borderTopRightRadius: 12,
+                flexDirection: "row",
+                overflow: "visible",
+              }}
+            >
               <View>
                 <Text className="text-xl font-extrabold text-white my-3">
                   1 Minute Wingo
@@ -100,8 +101,7 @@ export default function App() {
                   resizeMode="contain"
                 />
               </View>
-            
-          </LinearGradient>
+            </LinearGradient>
           </TouchableOpacity>
           <View className="bg-white flex-row justify-between p-3 rounded-b-xl mb-7">
             <View className="flex-row items-center gap-2">
@@ -245,7 +245,7 @@ export default function App() {
             </View>
           </View>
           <ScrollView>
-            {/* <Winning /> */}
+            <Winning />
           </ScrollView>
         </ScrollView>
       </SafeAreaView>

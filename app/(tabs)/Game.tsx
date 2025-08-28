@@ -16,6 +16,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRef, useEffect, useState } from "react";
 import { Link } from "expo-router";
+import { StatusBar as RNStatusBar } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -92,7 +93,22 @@ const fetchBalance = async () => {
 
   return (
     <GestureHandlerRootView>
-      <StatusBar style="light" />
+     <StatusBar style="auto" backgroundColor="#22c55e" />
+           
+           {/* Custom Status Bar Background - This creates the green background behind status bar */}
+           <View 
+             className="bg-green-500"
+             style={{ 
+               height: RNStatusBar.currentHeight,
+               position: 'absolute',
+               top: 0,
+               left: 0,
+               right: 0,
+               zIndex: 1
+             }} 
+           />
+     
+     
       <ScrollView>
         <SafeAreaView className="bg-green-500 min-h-[35vh] rounded-b-[40px] p-4">
           <View className="bg-white w-full items-center rounded-3xl my-4">
@@ -148,31 +164,30 @@ const fetchBalance = async () => {
             </View>
           </View>
 
-          <View className="bg-white p-1 rounded-full flex-row my-2 mb-5">
-            <View className="h-8 overflow-hidden">
-              <Animated.View
-                style={{
-                  flexDirection: "row",
-                  transform: [{ translateX: animatedValue }],
-                }}
-              >
-                {/* Wrap the text inside Animated.Text */}
-                <Animated.Text
-                  onLayout={(e) => {
-                    const width = e.nativeEvent.layout.width;
-                    setTextWidth(width); // Measure the text width
-                  }}
-                >
-                  Play at your own Risk. It may be Addictive.
-                </Animated.Text>
-              </Animated.View>
-            </View>
-            <View className="bg-green-500 rounded-full p-2">
-              <Text className="text-white font-bold">🔥Details</Text>
-            </View>
-          </View>
+          <View className="bg-white p-2 rounded-full flex-row my-2 mb-5">
+                      <View className="h-8 overflow-hidden">
+                        <Animated.View
+                          style={{
+                            flexDirection: "row",
+                            transform: [{ translateX: animatedValue }],
+                          }}
+                        >
+                          <Text
+                            onLayout={(e) => {
+                              const width = e.nativeEvent.layout.width;
+                              setTextWidth(width); // Measure the text width
+                            }}
+                          >
+                            Play at your own Risk.It may be Adictive
+                          </Text>
+                        </Animated.View>
+                      </View>
+                      <View className="absoulte right-2 bg-green-500 p-1 px-2 rounded-full">
+                        <Text className="text-white font-bold">🔥Details</Text>
+                      </View>
+                    </View>
         </SafeAreaView>
-        <TabsMin />
+       <TabsMin />
       </ScrollView>
     </GestureHandlerRootView>
   );
