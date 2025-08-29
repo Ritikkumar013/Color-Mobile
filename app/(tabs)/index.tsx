@@ -1,74 +1,33 @@
-import { View, Text, Image, Animated, Dimensions } from "react-native";
+import { View, Text, Image, Animated, Dimensions, Easing } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useRef, useEffect, useState } from "react";
 import Winning from "../../Components/Winning";
 import { ScrollView } from "react-native-virtualized-view";
-import { StatusBar } from "expo-status-bar";
 import { TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
+import Animation from "@/Components/Animation";
 
 export default function App() {
-  const windowWidth = Dimensions.get("window").width;
-  const animatedValue = useRef(new Animated.Value(windowWidth)).current;
-  const [textWidth, setTextWidth] = useState(0);
-
-const router= useRouter();
-
-  useEffect(() => {
-    const startAnimation = () => {
-      Animated.loop(
-        Animated.timing(animatedValue, {
-          toValue: -textWidth, // Move off-screen to the left
-          duration: textWidth * 20, // Adjust duration to control speed
-          useNativeDriver: true,
-        })
-      ).start();
-    };
-    if (textWidth > 0) {
-      startAnimation();
-    }
-    startAnimation();
-  }, [textWidth, animatedValue]);
+  
 
   return (
     <GestureHandlerRootView>
-      <SafeAreaView className="flex-1 px-3">
-        
-        <ScrollView
-          showsVerticalScrollIndicator={false} // Hides the scroll indicator
-          contentContainerStyle={{ paddingBottom: 10 }}
-        >
-          <Image
-            className="w-full h-48 rounded-xl mb-3"
-            source={require("../../assets/images/game-icon2.jpg")}
-            resizeMethod="auto"
-            resizeMode="cover"
-          />
-          <View className="bg-white p-2 rounded-full flex-row my-2 mb-5">
-            <View className="h-8 overflow-hidden">
-              <Animated.View
-                style={{
-                  flexDirection: "row",
-                  transform: [{ translateX: animatedValue }],
-                }}
-              >
-                <Text
-                  onLayout={(e) => {
-                    const width = e.nativeEvent.layout.width;
-                    setTextWidth(width); // Measure the text width
-                  }}
-                >
-                  Play at your own Risk.It may be Adictive
-                </Text>
-              </Animated.View>
-            </View>
-            <View className="bg-green-500 p-1 px-2 rounded-full">
-              <Text className="text-white font-bold">🔥Details</Text>
-            </View>
-          </View>
+      <SafeAreaView
+  className="flex-1 px-3"
+  edges={["left", "right", "bottom"]} // ⬅️ removes the top padding
+>
+  <ScrollView
+    showsVerticalScrollIndicator={false}
+    contentContainerStyle={{ paddingBottom: 10 }}
+  >
+    <Image
+      className="w-full h-48 rounded-xl my-3 "
+      source={require("../../assets/images/game-icon2.jpg")}
+      resizeMode="cover"
+    />
+          <Animation />
+
           <View className="border-l-4 border-green-500 mb-4">
             <Text className="text-xl font-extrabold px-2">Lottery</Text>
           </View>

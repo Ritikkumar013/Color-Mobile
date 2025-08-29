@@ -146,6 +146,8 @@
 
 import React, { useState, useEffect } from "react";
 import BetModal from "./Betmodel";
+
+import Game4 from "@/Components/GameHistory/Game4"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
@@ -589,7 +591,7 @@ const Min10 = () => {
 
 
       {/* Overlay for final 30 seconds */}
-      {isInFinalSeconds && (
+      {/* {isInFinalSeconds && (
         <View className="absolute top-32 left-0 right-0 bottom-0 bg-white/40 bg-opacity-30 z-10 justify-center items-center">
           <View className="bg-red-500 px-6 py-4 rounded-lg mx-4">
             <Text className="text-white text-xl font-bold text-center">
@@ -600,7 +602,7 @@ const Min10 = () => {
             </Text>
           </View>
         </View>
-      )}
+      )} */}
 
       {/* Color Buttons */}
       <View className="my-5 flex-row justify-between">
@@ -708,6 +710,10 @@ const Min10 = () => {
         onPlaceBet={placeBet}
         isPlacingBet={isPlacingBet}
       />
+
+          <View className="pt-5">
+        <Game4 />
+      </View>
     </View>
   );
 };

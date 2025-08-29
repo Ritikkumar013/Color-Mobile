@@ -1,9 +1,12 @@
 import * as React from "react";
 import { Stack } from "expo-router";
 import HeaderSignUp from "@/Components/commonComponents/HeaderSignUp";
+import { AuthProvider } from "@/Components/Auth";
 
 const _layout = () => {
   return (
+    <AuthProvider>
+      
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
@@ -47,6 +50,7 @@ const _layout = () => {
       <Stack.Screen name="UpdatePass" options={{headerShown:false}}/>
 <Stack.Screen name="Game1" options={{headerShown:false}}/>
     </Stack>
+    </AuthProvider>
   );
 };
 
